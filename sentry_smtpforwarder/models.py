@@ -23,6 +23,7 @@ class Smtpforwarder(MailProcessor):
     conf_key = 'smtpforwarder'
 
     def get_plaintext_body(self, group, event, link, interface_list):
+        import pdb; pdb.set_trace()
         header = "SENTRY_EVENT_MAIL"
         data = dict()
         data['server_name'] = event.server_name
@@ -30,4 +31,6 @@ class Smtpforwarder(MailProcessor):
         data['level'] = event.level
         data['event_id'] = event.event_id
         data['message'] = event.message
+        data['date'] = str(event.datetime)
+        data['data'] = event.data
         return " ".join([header, json.dumps(data, separators=(',', ':'))])
