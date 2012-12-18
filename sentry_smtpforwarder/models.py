@@ -14,6 +14,7 @@ import json
 
 @register
 class Smtpforwarder(MailProcessor):
+	# plugin vars
     author = 'Justin C'
     version = sentry_smtpforwarder.VERSION
     description = "Sentry event forwarding via SMTP."
@@ -22,15 +23,21 @@ class Smtpforwarder(MailProcessor):
     conf_title = title
     conf_key = 'smtpforwarder'
 
+	# this overrides an abstracted method from MailProcessor
     def get_plaintext_body(self, group, event, link, interface_list):
-        import pdb; pdb.set_trace()
         header = "SENTRY_EVENT_MAIL"
-        data = dict()
-        data['server_name'] = event.server_name
-        data['culprit'] = event.culprit
-        data['level'] = event.level
-        data['event_id'] = event.event_id
-        data['message'] = event.message
-        data['date'] = str(event.datetime)
-        data['data'] = event.data
+        
+        data = {
+            'server_name' : event.server_name,
+            'culprit' : event.culprit,
+            'level' : event.level,
+            'event_id' : event.event_id,
+            'message' : event.message,
+            'date' : str(event.datetime),
+            'data': event.data
+        }
         return " ".join([header, json.dumps(data, separators=(',', ':'))])
+       
+    
+        
+    
