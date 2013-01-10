@@ -1,5 +1,5 @@
 """
-sentry_smtpforwarder.models
+sentry_jsonmailprocessor.models
 ~~~~~~~~~~~~~~~~~~~~~
 """
 
@@ -9,21 +9,27 @@ from sentry.conf import settings
 from sentry.plugins import Plugin, register
 from sentry.plugins.sentry_mail.models import MailProcessor
 
-import sentry_smtpforwarder
+import sentry_jsonmailprocessor
 import json
 
-@register
-class Smtpforwarder(MailProcessor):
-	# plugin vars
-    author = 'Justin C'
-    version = sentry_smtpforwarder.VERSION
-    description = "Sentry event forwarding via SMTP."
-    slug = 'smtpforwarder'
-    title = 'SMTP Forwarder'
-    conf_title = title
-    conf_key = 'smtpforwarder'
+"""
+ Extends the existing mailer plugin and overrides the get_plaintext_body() method
+ to send the event data in JSON format.
+"""
 
-	# this overrides an abstracted method from MailProcessor
+#@register
+class JsonMailProcessor(MailProcessor):
+	# Plug-in vars.
+    author = 'Justin C'
+    author_url = None
+    version = sentry_jsonmailprocessor.VERSION
+    description = "Sentry event forwarding via SMTP in JSON format."
+    slug = 'jsonmailprocessor'
+    title = 'JSON Mailer'
+    conf_title = title
+    conf_key = 'jsonmailprocessor'
+
+	# Overrides the method from MailProcessor
     def get_plaintext_body(self, group, event, link, interface_list):
         header = "SENTRY_EVENT_MAIL"
         

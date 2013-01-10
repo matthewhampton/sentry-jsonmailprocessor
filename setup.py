@@ -6,17 +6,17 @@ install_requires = [
     ]
 
 setup(
-    name='sentry-smtpforwarder',
-    version='0.0.1',
+    name='sentry-jsonmailprocessor',
+    version='0.0.2',
     author='Justin C',
-    description='A Sentry extension that forwards Sentry events via SMTP.',
+    description='A Sentry extension that forwards Sentry events via SMTP in JSON format.',
     packages=find_packages(exclude=['test']),
     zip_safe=False,
     install_requires=install_requires,
     include_package_data=True,
     entry_points={
         'sentry.plugins': [
-            'smtpforwarder = sentry_smtpforwarder.models:Smtpforwarder',
+            'jsonmailprocessor = sentry_jsonmailprocessor.models:JsonMailProcessor',
             ],
         },
     classifiers=[
