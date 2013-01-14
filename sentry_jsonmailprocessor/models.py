@@ -29,6 +29,14 @@ class JsonMailProcessor(MailProcessor):
     conf_title = title
     conf_key = 'jsonmailprocessor'
 
+    # We want all events, not just new ones, so we override
+    # this method to remove the is_new check.
+    def post_process(self, group, event, is_new, is_sample, **kwargs):
+        if not self.should_notify(group, event):
+            return
+
+        self.notify_users(group, event)
+
 	# Overrides the method from MailProcessor
     def get_plaintext_body(self, group, event, link, interface_list):
         header = "SENTRY_EVENT_MAIL"
