@@ -11,6 +11,7 @@ from sentry.plugins.sentry_mail.models import MailProcessor
 
 import sentry_jsonmailprocessor
 import json
+from django.utils import timezone
 
 """
  Extends the existing mailer plugin and overrides the get_plaintext_body() method
@@ -40,6 +41,8 @@ class JsonMailProcessor(MailProcessor):
 	# Overrides the method from MailProcessor
     def get_plaintext_body(self, group, event, link, interface_list):
         header = "SENTRY_EVENT_MAIL"
+
+        event.data['date_local_tz'] = str(timezone.localtime(event.datetime))
         
         data = {
             'server_name' : event.server_name,
