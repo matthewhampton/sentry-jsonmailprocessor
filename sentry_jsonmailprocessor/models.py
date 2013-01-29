@@ -17,8 +17,6 @@ from django.utils import timezone
  Extends the existing mailer plugin and overrides the get_plaintext_body() method
  to send the event data in JSON format.
 """
-
-#@register
 class JsonMailProcessor(MailProcessor):
 	# Plug-in vars.
     author = 'Justin C'
@@ -54,7 +52,5 @@ class JsonMailProcessor(MailProcessor):
             'data': event.data
         }
         return " ".join([header, json.dumps(data, separators=(',', ':'))])
-       
-    
-        
-    
+
+register(JsonMailProcessor)
