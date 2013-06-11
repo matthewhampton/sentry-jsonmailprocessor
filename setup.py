@@ -6,7 +6,7 @@ install_requires = [
     ]
 
 setup(
-    name='sentry_jsonmailprocessor',
+    name='sentry-jsonmailprocessor',
     version='0.0.2',
     author='Justin C',
     description='A Sentry extension that forwards Sentry events via SMTP in JSON format.',
